@@ -1,3 +1,4 @@
+// variables to bring in mysql and requirer modules
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
@@ -23,21 +24,23 @@ connection.connect(function (err) {
     afterConnection();
 });
 
-
+// function to display id , product name and price from mysql database
 function afterConnection() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        console.log(" I.D. | Product     | Department | Price | Stock Quantity");
-        console.log("---------------------------------------------------------");
+        console.log(" I.D. | Product     | Price");
+        console.log("----------------------------");
 
+        // loop through response to display all items in database
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].id + "     | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + "   | " + res[i].stock_quantity)
-            console.log("---------------------------------------------------------");
+            console.log(res[i].id + "     | " + res[i].product_name + " | " + res[i].price);
+            console.log("----------------------------");
         }
         buyProduct();
     });
 }
 
+// function to get item and quantity from user
 function buyProduct() {
     inquirer.prompt([
         {
@@ -63,30 +66,51 @@ function buyProduct() {
                     var currentQ = res[i].stock_quantity;
                 }
                 var quantityId = answer.quantity;
-                var updateQ = currentQ - quantityId
-                var idPrice = cost * quantityId;
+
+                // if statement to let user know if there is not enough stock on hand
                 if (currentQ < quantityId) {
-                    console.log("Sorry, we do not have that quantity in stock");
-                    console.log("We only have " + currentQ + " left")
-                    afterConnection();
+                    console.log("\nSorry, we do not have that quantity in stock");
+                    console.log("\nWe only have " + currentQ + " left\n")
+                    buyProduct();
+                } else {
+                    displayTotal(answer);
                 }
-                
-                console.log("Product: " + name);
-                console.log("Quantity: " + quantityId);
-                console.log("Your total price is: $" + idPrice);
-                updateProduct(updateQ);
-                connection.end();
             })
-
-            
-            
-            function updateProduct(val) {
-                var updateQ = val;
-                var query = "UPDATE products SET ? WHERE ?"
-                connection.query(query, [{ stock_quantity: updateQ }, { id: answer.item }], function (err, res) {
-                    if (err) throw err;
-
-                })
-            }
         })
 }
+
+// function to display item and total cost to user
+function displayTotal(val) {
+    var answer = val;
+    var query = "SELECT product_name, id, stock_quantity, price FROM products WHERE ?"
+    connection.query(query, { id: answer.item }, function (err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            var cost = res[i].price;
+            var name = res[i].product_name;
+            var currentQ = res[i].stock_quantity;
+        }
+        var quantityId = answer.quantity;
+        var updateQ = currentQ - quantityId
+        var idPrice = cost * quantityId;
+
+        console.log("\nProduct: " + name);
+        console.log("\nQuantity: " + quantityId);
+        console.log("-------------------------")
+        console.log("Your total price is: $" + idPrice);
+        console.log("-------------------------")
+        updateProduct(updateQ, answer);
+    })
+};
+
+// function to update database to reflect new totals after sale
+function updateProduct(val, answer) {
+    var updateQ = val;
+    var query = "UPDATE products SET ? WHERE ?"
+    connection.query(query, [{ stock_quantity: updateQ }, { id: answer.item }], function (err, res) {
+        if (err) throw err;
+        connection.end();
+    })
+}
+
+

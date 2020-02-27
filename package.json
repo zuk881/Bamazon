@@ -1,7 +1,7 @@
 {
   "name": "bamazon",
   "version": "1.0.0",
-  "description": "",
+  "description": "MySQL database with Node interface",
   "main": "bamazonCustomer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,14 @@
   "dependencies": {
     "inquirer": "^7.0.4",
     "mysql": "^2.18.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuk881/Bamazon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zuk881/Bamazon/issues"
+  },
+  "homepage": "https://github.com/zuk881/Bamazon#readme"
 }
