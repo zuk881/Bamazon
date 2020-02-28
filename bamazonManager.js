@@ -80,7 +80,7 @@ function viewProd() {
         console.log("------------------------------------------------");
 
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].id + "     | " + res[i].product_name + " | " + res[i].price + "    | " + res[i].stock_quantity);
+            console.log(" " + res[i].id + "     | " + res[i].product_name + " | " + res[i].price + "    | " + res[i].stock_quantity);
             console.log("------------------------------------------------");
         }
         startApp();
@@ -95,12 +95,13 @@ function viewProd() {
 function lowInv() {
     connection.query("SELECT product_name, id, stock_quantity FROM products WHERE stock_quantity < 5", function (err, res) {
         if (err) throw err;
+        console.log(" I.D. | Product     | Quantity in stock");
+        console.log("------------------------------------------------");
         for (var i = 0; i < res.length; i++) {
-            console.log(" I.D. | Product     | Quantity in stock");
-            console.log("------------------------------------------------");
             console.log("  " + res[i].id + "   | " + res[i].product_name + " | " + res[i].stock_quantity);
             console.log("------------------------------------------------");
         }
+      
         startApp();
     })
 }
@@ -117,7 +118,7 @@ function addInv() {
         console.log("------------------------------------");
 
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].id + "     | " + res[i].product_name + " | " + res[i].stock_quantity);
+            console.log(" " + res[i].id + "     | " + res[i].product_name + " | " + res[i].stock_quantity);
             console.log("------------------------------------");
         }
         addProduct();

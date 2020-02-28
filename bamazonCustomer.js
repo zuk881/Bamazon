@@ -33,7 +33,7 @@ function afterConnection() {
 
         // loop through response to display all items in database
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].id + "     | " + res[i].product_name + " | " + res[i].price);
+            console.log(" " + res[i].id + "     | " + res[i].product_name + " | " + res[i].price);
             console.log("----------------------------");
         }
         buyProduct();
