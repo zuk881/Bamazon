@@ -15,3 +15,4 @@
 * Add new products.
 
 ### Both applications work with the MySQL database, adding, removing or updating products as chosen by user.
+## Here is a link to a video demonstrating application: https://drive.google.com/file/d/1ALxs7IHW4YJCPd5NiD7IxIl3Bt9j1oCW/view
